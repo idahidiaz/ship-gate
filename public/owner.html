@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom Salon – Bookings</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><strong>Bloom Salon · Owner</strong><a href="/">Booking page</a></header>
+<main>
+  <h1>Bookings</h1>
+  <table>
+    <thead><tr><th>Code</th><th>Date</th><th>Time</th><th>Service</th><th>Name</th><th>Phone</th></tr></thead>
+    <tbody id="rows"><tr><td colspan="6">Loading…</td></tr></tbody>
+  </table>
+</main>
+<script>
+fetch('/api/bookings').then((r) => r.json()).then((list) => {
+  const rows = document.getElementById('rows');
+  rows.innerHTML = list.length ? '' : '<tr><td colspan="6">No bookings yet.</td></tr>';
+  list.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).forEach((b) => {
+    const tr = document.createElement('tr');
+    [b.code, b.date, b.time, b.service, b.name, b.phone].forEach((v) => { const td = document.createElement('td'); td.textContent = v; tr.append(td); });
+    rows.append(tr);
+  });
+});
+</script>
+</body>
+</html>

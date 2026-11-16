@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom Salon – Book a visit</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><strong>Bloom Salon</strong><a href="/owner">Owner view</a></header>
+<main>
+  <h1>Book a visit</h1>
+  <form id="book" novalidate>
+    <label>Service
+      <select name="service" id="service">
+        <option value="">Choose…</option>
+        <option value="cut">Haircut – 30 min</option>
+        <option value="color">Colour – 90 min</option>
+        <option value="nails">Manicure – 45 min</option>
+      </select>
+    </label>
+    <label>Date <input type="date" name="date" id="date"></label>
+    <fieldset><legend>Time</legend><div id="slots" class="slots">Pick a date first.</div></fieldset>
+    <label>Your name <input name="name" id="name" autocomplete="name"></label>
+    <label>Phone <input name="phone" id="phone" type="tel" autocomplete="tel"></label>
+    <p id="error" class="error" role="alert"></p>
+    <button type="submit">Book now</button>
+  </form>
+  <section id="done" class="done" hidden>
+    <h2>You're booked!</h2>
+    <p id="summary"></p>
+    <p>Your booking code: <strong id="code"></strong></p>
+    <button type="button" id="again">Book another</button>
+  </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
