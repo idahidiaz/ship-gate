@@ -3,3 +3,4 @@ node_modules/
 recordings/
 .testmuai/
 tests/output-*/
+.kane-gate-state.json
