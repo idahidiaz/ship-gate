@@ -16,6 +16,22 @@ Made for the KaneCLI Online Hackathon. Agent: Claude Code. Tester: Kane CLI.
 | `scripts/kane-gate.js` + `.claude/settings.json` | The loop: a Claude Code **Stop hook**. When the agent tries to finish, it starts the site, runs the Kane tests, and on a real failure exits with code 2 and Kane's report, so Claude Code hands the failure back to the agent. Max 3 rounds. |
 | `evidence/` | Honest notes of real Kane runs, including what Kane caught. |
 
+## Check our claims
+
+You don't have to trust the video. Three ways to check that Kane really did the testing:
+
+1. **Kane's own pages, hosted by TestMu AI.** Every Kane run is stored in Kane's Test Manager. These share links open
+   without a login and show Kane's step-by-step replay (press Autoplay):
+   - [Money test, passed at 05:12 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_75ZYBQV324ODSN610ROVHZVVTAYXJ7RUY04T23NIPN15K0V3HLKWL83A2L3481AS?type=summary&agentView=true&fqdn=summary-page), right after the agent fixed the planted tax bug (run 5)
+   - [Money test, passed at 05:59 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_UYJUCY0BY2T15X9U746QLMPBMTKQT14BXFB4V2JGAL8RV379G3XC9VXLMZ8FAITD?type=summary&agentView=true&fqdn=summary-page), the final recorded run (run 6)
+2. **Kane's diagnosis of the failure.** Screenshot of Kane's own root-cause analysis for a failed gate run on the
+   planted-bug version (17 Nov, ~05:27 UTC): *"The booking review applies the wrong tax amount after the PAIR15 discount…
+   tax is calculated as $8.16 rather than $6.94"*, with the fix it suggests ($93.64 total, as in `SPEC.md`).
+   ![Kane root-cause analysis of the planted tax bug](evidence/kane-rca-tax-bug.jpg)
+3. **Run it yourself.** The planted bug is still in the history (commits `902baaa`, `5e36da8`, `bc2c16a`, each marked
+   "PLANTED BUG ON PURPOSE"). Check one out, start the site and run Kane (steps below): the money test should fail on the tax
+   (Kane's first run of a test can also raise a noisy alarm, see Honest notes). On the latest commit it passes. The commit times line up with Kane's log in `evidence/`.
+
 ## Run the site
 
 ```
