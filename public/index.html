@@ -43,7 +43,7 @@
 header('home');
 call('/api/info').then(({ data }) => {
   $('#menu-list').innerHTML = data.services.map((s) => `<article class="card"><div class="meta">${dur(s.minutes)}</div><h3>${esc(s.name)}</h3><p>${esc(s.blurb)}</p><div class="price" style="margin-top:10px">${money(s.cents)}</div></article>`).join('');
-  $('#team-list').innerHTML = data.stylists.map((s) => `<article class="card"><div class="avatar">${s.name[0]}</div><h3>${esc(s.name)}</h3><div class="meta">${esc(s.role)}</div><p>${s.factor === 1 ? 'Menu prices' : s.factor > 1 ? 'Menu prices plus 20%' : 'Menu prices less 15%'}</p></article>`).join('');
+  $('#team-list').innerHTML = data.stylists.map((s) => `<article class="card"><div class="avatar">${s.name[0]}</div><h3>${esc(s.name)}</h3><div class="meta">${esc(s.role)}</div><p>${s.factor === 1 ? 'Menu prices' : s.factor > 1 ? 'Menu prices plus 20%' : 'Menu prices less 15%'}</p><a class="btn" href="/book">Book now</a></article>`).join('');
   const order = [1, 2, 3, 4, 5, 6, 0];
   $('#hours-table').innerHTML = order.map((d) => { const h = data.hours[d]; return `<tr><td>${DAYS[d]}</td><td>${h ? minText(h[0]) + ' – ' + minText(h[1]) : 'Closed'}</td></tr>`; }).join('');
 });
