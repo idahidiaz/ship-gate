@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your booking – Bloom &amp; Co.</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="wrap page" style="max-width:640px">
+  <h1>Your booking</h1>
+  <section class="panel" id="ask">
+    <h2 id="ask-title">Find your booking</h2>
+    <label class="field">Booking code <input id="code" placeholder="BC-XXXXX"></label>
+    <label class="field">Phone used when booking <input id="phone" type="tel"></label>
+    <p class="error" id="e" role="alert"></p>
+    <button class="btn" id="find" type="button">Find booking</button>
+  </section>
+  <section class="panel" id="view" hidden>
+    <p class="eyebrow" id="status"></p>
+    <h2 id="vcode"></h2>
+    <ul class="lines" id="vlines"></ul>
+    <p class="note" id="cancel-note"></p>
+    <p class="error" id="e2" role="alert"></p>
+    <button class="btn danger" id="cancel" type="button">Cancel this booking</button>
+  </section>
+</main>
+<script src="/common.js"></script>
+<script>
+header('booking');
+const codeFromUrl = decodeURIComponent(location.pathname.split('/')[2] || '');
+if (codeFromUrl) $('#code').value = codeFromUrl;
+let cur = null;
+
+function paint(b) {
+  cur = b;
+  $('#ask').hidden = true; $('#view').hidden = false;
+  $('#status').textContent = b.status === 'cancelled' ? 'Cancelled' : 'Confirmed';
+  $('#vcode').textContent = b.code;
+  $('#vlines').innerHTML = `<li><span>When</span><span>${esc(prettyDate(b.date))}, ${b.start} to ${b.end}</span></li>
+    <li><span>Name</span><span>${esc(b.name)}</span></li>
+    ${b.services.map((s) => `<li class="muted"><span>${esc(s.name)}</span><span>${money(s.cents)}</span></li>`).join('')}${moneyLines(b)}`;
+  const can = b.status === 'booked' && b.canCancel;
+  $('#cancel').hidden = !can;
+  $('#cancel-note').textContent = b.status === 'cancelled' ? 'This booking has been cancelled and the time is free again.'
+    : can ? 'You can cancel for free up to 24 hours before your start time.' : 'Please call the salon to cancel within 24 hours.';
+}
+
+$('#find').onclick = async () => {
+  const code = $('#code').value.trim().toUpperCase(), phone = $('#phone').value.trim();
+  const { ok, data } = await call(`/api/bookings/${encodeURIComponent(code)}?phone=${encodeURIComponent(phone)}`);
+  if (!ok) { $('#e').textContent = data.error; return; }
+  $('#e').textContent = ''; paint(data);
+};
+$('#cancel').onclick = async () => {
+  if (!confirm('Cancel this booking?')) return;
+  const { ok, data } = await call(`/api/bookings/${encodeURIComponent(cur.code)}/cancel`, { phone: $('#phone').value });
+  if (!ok) { $('#e2').textContent = data.error; return; }
+  $('#e2').textContent = ''; paint(data);
+};
+</script>
+</body>
+</html>

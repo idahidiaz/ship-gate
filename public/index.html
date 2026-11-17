@@ -2,36 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloom Salon – Book a visit</title>
+<title>Bloom &amp; Co. – Unhurried hair, nails and skin</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header><strong>Bloom Salon</strong><a href="/owner">Owner view</a></header>
 <main>
-  <h1>Book a visit</h1>
-  <form id="book" novalidate>
-    <label>Service
-      <select name="service" id="service">
-        <option value="">Choose…</option>
-        <option value="cut">Haircut – 30 min</option>
-        <option value="color">Colour – 90 min</option>
-        <option value="nails">Manicure – 45 min</option>
-      </select>
-    </label>
-    <label>Date <input type="date" name="date" id="date"></label>
-    <fieldset><legend>Time</legend><div id="slots" class="slots">Pick a date first.</div></fieldset>
-    <label>Your name <input name="name" id="name" autocomplete="name"></label>
-    <label>Phone <input name="phone" id="phone" type="tel" autocomplete="tel"></label>
-    <p id="error" class="error" role="alert"></p>
-    <button type="submit">Book now</button>
-  </form>
-  <section id="done" class="done" hidden>
-    <h2>You're booked!</h2>
-    <p id="summary"></p>
-    <p>Your booking code: <strong id="code"></strong></p>
-    <button type="button" id="again">Book another</button>
-  </section>
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Bloom &amp; Co. salon</p>
+      <h1>Unhurried care for your hair, <em>nails and skin.</em></h1>
+      <p class="lead">Book up to four treatments in one visit. We line them up back to back, show the full price before you confirm, and keep your slot with a small deposit.</p>
+      <div class="cta"><a class="btn" href="/book">Book a visit</a><a class="btn ghost" href="#menu">See the menu</a></div>
+      <dl class="facts">
+        <div><dt>Stylists</dt><dd>Noor, Ava, Leo</dd></div>
+        <div><dt>Deposit</dt><dd>20% to confirm</dd></div>
+        <div><dt>Cancel</dt><dd>Free until 24 h before</dd></div>
+      </dl>
+    </div>
+    <div class="arch"><div class="art" role="img" aria-label="Decorative illustration"></div></div>
+  </div>
+
+  <section class="band tint" id="menu"><div class="wrap">
+    <div class="section-head"><p class="eyebrow">Menu</p><h2>Treatments and prices</h2><p class="note">Prices are for Noor. Ava (senior) is 20% more, Leo (junior) is 15% less.</p></div>
+    <div class="menu" id="menu-list"></div>
+  </div></section>
+
+  <section class="band" id="team"><div class="wrap">
+    <div class="section-head"><p class="eyebrow">Stylists</p><h2>Who you'll see</h2></div>
+    <div class="team" id="team-list"></div>
+  </div></section>
+
+  <section class="band tint" id="hours"><div class="wrap">
+    <div class="section-head"><p class="eyebrow">Opening hours</p><h2>When we're open</h2></div>
+    <table class="hours" id="hours-table"></table>
+  </div></section>
 </main>
-<script src="/app.js"></script>
+<footer>Bloom &amp; Co. is a demo salon built for the Kane CLI hackathon. Bookings are stored on this computer only.</footer>
+<script src="/common.js"></script>
+<script>
+header('home');
+call('/api/info').then(({ data }) => {
+  $('#menu-list').innerHTML = data.services.map((s) => `<article class="card"><div class="meta">${dur(s.minutes)}</div><h3>${esc(s.name)}</h3><p>${esc(s.blurb)}</p><div class="price" style="margin-top:10px">${money(s.cents)}</div></article>`).join('');
+  $('#team-list').innerHTML = data.stylists.map((s) => `<article class="card"><div class="avatar">${s.name[0]}</div><h3>${esc(s.name)}</h3><div class="meta">${esc(s.role)}</div><p>${s.factor === 1 ? 'Menu prices' : s.factor > 1 ? 'Menu prices plus 20%' : 'Menu prices less 15%'}</p></article>`).join('');
+  const order = [1, 2, 3, 4, 5, 6, 0];
+  $('#hours-table').innerHTML = order.map((d) => { const h = data.hours[d]; return `<tr><td>${DAYS[d]}</td><td>${h ? minText(h[0]) + ' – ' + minText(h[1]) : 'Closed'}</td></tr>`; }).join('');
+});
+</script>
 </body>
 </html>

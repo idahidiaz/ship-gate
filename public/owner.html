@@ -2,28 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloom Salon – Bookings</title>
+<title>Owner view – Bloom &amp; Co.</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header><strong>Bloom Salon · Owner</strong><a href="/">Booking page</a></header>
-<main>
-  <h1>Bookings</h1>
-  <table>
-    <thead><tr><th>Code</th><th>Date</th><th>Time</th><th>Service</th><th>Name</th><th>Phone</th></tr></thead>
-    <tbody id="rows"><tr><td colspan="6">Loading…</td></tr></tbody>
-  </table>
+<main class="wrap page">
+  <div class="owner-head">
+    <div><p class="eyebrow">Owner view</p><h1 id="title">Today</h1></div>
+    <label class="field" style="margin:0">Day <input type="date" id="day"></label>
+  </div>
+  <div class="tiles" id="tiles"></div>
+  <div class="timeline" id="list"></div>
+  <p class="error" id="e" role="alert"></p>
 </main>
+<script src="/common.js"></script>
 <script>
-fetch('/api/bookings').then((r) => r.json()).then((list) => {
-  const rows = document.getElementById('rows');
-  rows.innerHTML = list.length ? '' : '<tr><td colspan="6">No bookings yet.</td></tr>';
-  list.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).forEach((b) => {
-    const tr = document.createElement('tr');
-    [b.code, b.date, b.time, b.service, b.name, b.phone].forEach((v) => { const td = document.createElement('td'); td.textContent = v; tr.append(td); });
-    rows.append(tr);
-  });
+header('owner');
+let info;
+async function load() {
+  const day = $('#day').value;
+  const { data } = await call('/api/owner/day?date=' + day);
+  $('#title').textContent = prettyDate(data.date);
+  const t = data.totals;
+  $('#tiles').innerHTML = [['Bookings', t.count], ['Booked hours', t.hours], ['Expected revenue', money(t.revenueCents)], ['Deposits taken', money(t.depositsCents)]]
+    .map(([l, v]) => `<div class="tile"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
+  $('#list').innerHTML = data.bookings.length ? data.bookings.map((b) => {
+    const who = info.stylists.find((s) => s.id === b.stylist).name;
+    return `<article class="slot ${b.status === 'cancelled' ? 'cancelled' : ''}" data-code="${b.code}">
+      <div class="time">${b.start} – ${b.end}</div>
+      <div><div class="who">${esc(b.name)} <span class="tag">${esc(b.code)}</span>${b.status === 'cancelled' ? '<span class="tag bad">Cancelled</span>' : ''}</div>
+      <div class="sub">${b.services.map((s) => esc(s.name)).join(' + ')} with ${esc(who)} · ${money(b.totalCents)} total · ${esc(b.phone)}</div></div>
+      ${b.status === 'booked' ? `<button class="btn danger" data-cancel="${b.code}" type="button">Cancel</button>` : '<span></span>'}</article>`;
+  }).join('') : '<p class="note">No bookings on this day.</p>';
+}
+$('#list').addEventListener('click', async (e) => {
+  const code = e.target.dataset.cancel; if (!code) return;
+  if (!confirm('Cancel booking ' + code + '?')) return;
+  const { ok, data } = await call('/api/owner/cancel/' + code, {});
+  $('#e').textContent = ok ? '' : data.error; load();
 });
+$('#day').addEventListener('change', load);
+call('/api/info').then(({ data }) => { info = data; $('#day').value = data.today; load(); });
 </script>
 </body>
 </html>

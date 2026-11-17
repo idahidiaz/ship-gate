@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a visit – Bloom &amp; Co.</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="wrap page">
+  <h1>Book a visit</h1>
+  <ol class="steps" id="steps"><li>1 Services</li><li>2 Stylist &amp; time</li><li>3 Your details</li><li>4 Review</li></ol>
+  <div class="layout">
+    <div>
+      <section class="panel" id="step1">
+        <h2>Choose 1 to 4 services</h2>
+        <div class="pick" id="service-list"></div>
+        <p class="error" id="e1" role="alert"></p>
+        <div class="nav"><span></span><button class="btn" id="next1" type="button">Next: stylist &amp; time</button></div>
+      </section>
+
+      <section class="panel" id="step2" hidden>
+        <h2>Pick a stylist and a time</h2>
+        <div class="pick" id="stylist-list"></div>
+        <label class="field" style="margin-top:16px">Date <input type="date" id="date"><small id="date-note"></small></label>
+        <div><strong style="font-size:14px">Start time</strong>
+          <div class="times" id="times" style="margin-top:8px"><span class="note">Choose a date to see times.</span></div></div>
+        <p class="error" id="e2" role="alert"></p>
+        <div class="nav"><button class="btn ghost" data-back="1" type="button">Back</button><button class="btn" id="next2" type="button">Next: your details</button></div>
+      </section>
+
+      <section class="panel" id="step3" hidden>
+        <h2>Your details</h2>
+        <label class="field">Name <input id="name" autocomplete="name"></label>
+        <label class="field">Phone <input id="phone" type="tel" autocomplete="tel"><small>7 to 15 digits. We use it to find your booking later.</small></label>
+        <label class="field">Email (optional) <input id="email" type="email" autocomplete="email"></label>
+        <label class="field">Promo code (optional) <input id="promo" autocapitalize="characters"></label>
+        <p class="error" id="e3" role="alert"></p>
+        <div class="nav"><button class="btn ghost" data-back="2" type="button">Back</button><button class="btn" id="next3" type="button">Next: review</button></div>
+      </section>
+
+      <section class="panel" id="step4" hidden>
+        <h2>Review and confirm</h2>
+        <div id="review"></div>
+        <p class="note">Pay the deposit now to hold the slot; the rest is paid at the salon. (This demo does not take real payments.)</p>
+        <p class="error" id="e4" role="alert"></p>
+        <div class="nav"><button class="btn ghost" data-back="3" type="button">Back</button><button class="btn" id="confirm" type="button">Confirm booking</button></div>
+      </section>
+
+      <section class="panel done-box" id="done" hidden>
+        <p class="eyebrow">Booking confirmed</p>
+        <h2>You're booked!</h2>
+        <div class="code" id="code"></div>
+        <ul class="lines" id="done-lines"></ul>
+        <p class="note" id="done-note"></p>
+        <a class="btn" id="manage" href="#">View or cancel this booking</a>
+      </section>
+    </div>
+
+    <aside class="panel summary" id="summary-box">
+      <h3>Your visit</h3>
+      <div id="summary"><p class="note">Nothing chosen yet.</p></div>
+    </aside>
+  </div>
+</main>
+<script src="/common.js"></script>
+<script src="/book.js"></script>
+</body>
+</html>
