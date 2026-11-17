@@ -25,9 +25,13 @@ You don't have to trust the video. Three ways to check that Kane really did the 
    - [Money test, passed at 05:12 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_75ZYBQV324ODSN610ROVHZVVTAYXJ7RUY04T23NIPN15K0V3HLKWL83A2L3481AS?type=summary&agentView=true&fqdn=summary-page), right after the agent fixed the planted tax bug (run 5)
    - [Money test, passed at 05:59 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_UYJUCY0BY2T15X9U746QLMPBMTKQT14BXFB4V2JGAL8RV379G3XC9VXLMZ8FAITD?type=summary&agentView=true&fqdn=summary-page), the final recorded run (run 6)
 2. **Kane's diagnosis of the failure.** Screenshot of Kane's own root-cause analysis for a failed gate run on the
-   planted-bug version (17 Nov, ~05:27 UTC): *"The booking review applies the wrong tax amount after the PAIR15 discount…
+   planted-bug version (17 Nov, 05:21-05:27 UTC): *"The booking review applies the wrong tax amount after the PAIR15 discount…
    tax is calculated as $8.16 rather than $6.94"*, with the fix it suggests ($93.64 total, as in `SPEC.md`).
    ![Kane root-cause analysis of the planted tax bug](evidence/kane-rca-tax-bug.jpg)
+   The full run is here too, exactly as Kane CLI 0.10.4 exported it from Test Manager:
+   [`evidence/kane-run-tax-bug-caught.evidence`](evidence/kane-run-tax-bug-caught.evidence) (6 MB). It is a zip file:
+   `run.yaml` and `failure.yaml` hold the verdict and times, `tests/money-*/` holds every step, screenshot, console and
+   network log of the run. Rename it to `.zip` to look inside.
 3. **Run it yourself.** The planted bug is still in the history (commits `902baaa`, `5e36da8`, `bc2c16a`, each marked
    "PLANTED BUG ON PURPOSE"). Check one out, start the site and run Kane (steps below): the money test should fail on the tax
    (Kane's first run of a test can also raise a noisy alarm, see Honest notes). On the latest commit it passes. The commit times line up with Kane's log in `evidence/`.
