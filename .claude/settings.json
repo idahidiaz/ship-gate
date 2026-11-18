@@ -3,7 +3,7 @@
     "Stop": [
       {
         "hooks": [
-          { "type": "command", "command": "node scripts/kane-gate.js", "timeout": 1800 }
+          { "type": "command", "command": "node scripts/kane-gate.js", "timeout": 10800 }
         ]
       }
     ]
