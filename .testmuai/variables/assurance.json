@@ -1,0 +1,17 @@
+{
+  "start_url": {
+    "value": "http://localhost:4180",
+    "secret": false,
+    "description": "Bloom & Co. site base URL, without a trailing slash, for booking browser tests."
+  },
+  "customer_name": {
+    "value": "Sam Lee",
+    "secret": false,
+    "description": "Valid test customer name with at least two letters, for successful and setup bookings."
+  },
+  "customer_phone": {
+    "value": "+44 20 7946 0958",
+    "secret": false,
+    "description": "Valid test customer phone of 7–15 digits, optionally formatted with spaces, dashes or leading +."
+  }
+}
