@@ -5,7 +5,8 @@ const path = require('path');
 const L = require('./lib/logic');
 
 const PORT = process.env.PORT || 4173;
-const DATA = process.env.SHIPGATE_DATA || path.join(__dirname, 'data', 'bookings.json');
+// On Vercel only /tmp can be written to, so the live demo keeps its bookings there (they reset now and then).
+const DATA = process.env.SHIPGATE_DATA || (process.env.VERCEL ? '/tmp/bookings.json' : path.join(__dirname, 'data', 'bookings.json'));
 const PUBLIC = path.join(__dirname, 'public');
 
 const load = () => { try { return JSON.parse(fs.readFileSync(DATA, 'utf8')); } catch { return []; } };

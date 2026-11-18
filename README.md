@@ -6,6 +6,20 @@ once Kane passes.
 
 Made for the KaneCLI Online Hackathon. Agent: Claude Code. Tester: Kane CLI.
 
+## See it in one minute
+
+- **Try the site live, no install:** https://shipgate-bloom-demo.vercel.app (the fixed version; demo bookings reset now and then)
+- **Watch the loop (3 min):** https://youtu.be/Z-8XtzgDH3g
+- **Check Kane's own records:** [Check our claims](#check-our-claims)
+
+| 1. Kane catches the wrong total | 2. The agent fixes one line |
+|---|---|
+| ![Kane sees a total of $94.86 where SPEC.md says $93.64](evidence/screenshots/1-kane-catches-wrong-total.jpg) | ![The one-line fix in lib/logic.js: tax now comes after the discount](evidence/screenshots/2-agent-fixes-one-line.jpg) |
+| **3. Kane runs the same booking again: pass** | **4. The loop** |
+| ![Kane passes: total $93.64, deposit $18.73, matches SPEC.md](evidence/screenshots/3-kane-passes.jpg) | ![Agent finishes, Kane tests, failure goes back, agent fixes, Kane checks again](evidence/screenshots/4-the-closed-loop.jpg) |
+
+Screens 1 to 3 are from the demo video, which shows Kane's real run. Kane's own diagnosis of the bug is in [Check our claims](#check-our-claims).
+
 ## What is in here
 
 | Part | What it is |
@@ -37,6 +51,8 @@ You don't have to trust the video. Three ways to check that Kane really did the 
    (Kane's first run of a test can also raise a noisy alarm, see Honest notes). On the latest commit it passes. The commit times line up with Kane's log in `evidence/`.
 
 ## Run the site
+
+A live copy runs at https://shipgate-bloom-demo.vercel.app (Vercel runs `server.js` as it is; `vercel.json` adds the page files). To run it yourself:
 
 ```
 node server.js
