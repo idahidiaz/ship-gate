@@ -24,8 +24,8 @@ function readBody(req) {
 }
 
 function detailsProblem(b) {
-  if (!b.name || b.name.trim().length < 2) return 'Please enter your name (at least 2 letters).';
-  if (!/^\+?[\d\s-]{7,15}$/.test(b.phone || '')) return 'Please enter a valid phone number (7 to 15 digits).';
+  if (((b.name || '').match(/\p{L}/gu) || []).length < 2) return 'Please enter your name (at least 2 letters).';
+  if (!/^\+?[\d\s-]+$/.test((b.phone || '').trim()) || !/^\d{7,15}$/.test((b.phone || '').replace(/\D/g, ''))) return 'Please enter a valid phone number (7 to 15 digits).';
   if (b.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(b.email)) return 'That email address does not look right.';
   return '';
 }

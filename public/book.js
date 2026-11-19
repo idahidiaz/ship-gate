@@ -81,8 +81,8 @@ async function renderReview() {
   };
   $('#next3').onclick = () => {
     const name = $('#name').value.trim(), phone = $('#phone').value.trim(), email = $('#email').value.trim();
-    if (name.length < 2) return ($('#e3').textContent = 'Please enter your name (at least 2 letters).');
-    if (!/^\+?[\d\s-]{7,15}$/.test(phone)) return ($('#e3').textContent = 'Please enter a valid phone number (7 to 15 digits).');
+    if ((name.match(/\p{L}/gu) || []).length < 2) return ($('#e3').textContent = 'Please enter your name (at least 2 letters).');
+    if (!/^\+?[\d\s-]+$/.test(phone) || !/^\d{7,15}$/.test(phone.replace(/\D/g, ''))) return ($('#e3').textContent = 'Please enter a valid phone number (7 to 15 digits).');
     if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return ($('#e3').textContent = 'That email address does not look right.');
     $('#e3').textContent = ''; show(4);
   };
