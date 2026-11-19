@@ -36,6 +36,8 @@ function waitForServer(port, tries = 40) {
 function runKane(file, url) {
   const args = ['testmd', 'run', JSON.stringify(file), '--url', JSON.stringify(url), '--agent', '--timeout', '900'];
   if (process.env.KANE_HEADED !== '1') args.push('--headless');
+  // KANE_NO_HEAL=1: a replayed check that fails stays failed (Kane may not re-author it into a pass).
+  if (process.env.KANE_NO_HEAL === '1') args.push('--no-adaptive-heal');
   return new Promise((resolve) => {
     const p = spawn(JSON.stringify(KANE), args, { cwd: ROOT, shell: true });
     let out = '';
@@ -54,7 +56,11 @@ function runKane(file, url) {
 (async () => {
   const state = readState();
   const dataFile = path.join(os.tmpdir(), `kane-gate-${process.pid}.json`);
-  const site = spawn(process.execPath, ['server.js'], { cwd: ROOT, env: { ...process.env, PORT: String(PORT), SHIPGATE_DATA: dataFile }, stdio: 'ignore' });
+  // Frozen clock + ready-made bookings for the cancel and owner tests (see scripts/fixtures.js).
+  const fx = require('./fixtures');
+  const frozen = fx.frozenNow();
+  fx.seed(dataFile, frozen);
+  const site = spawn(process.execPath, ['server.js'], { cwd: ROOT, env: { ...process.env, PORT: String(PORT), SHIPGATE_DATA: dataFile, SHIPGATE_NOW: frozen }, stdio: 'ignore' });
   const stopSite = () => { try { site.kill(); } catch {} try { fs.unlinkSync(dataFile); } catch {} };
   try { await waitForServer(PORT); } catch (e) { stopSite(); console.error('Kane gate: ' + e.message); process.exit(0); }
 

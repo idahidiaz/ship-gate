@@ -13,5 +13,20 @@
     "value": "+44 20 7946 0958",
     "secret": false,
     "description": "Valid test customer phone of 7–15 digits, optionally formatted with spaces, dashes or leading +."
+  },
+  "eligible_booking_code": {
+    "value": "BC-EARLY48",
+    "secret": false,
+    "description": "Code of a live customer booking made with customer_phone, starting more than 24 hours from the test and having a stylist slot suitable for availability checks."
+  },
+  "late_booking_code": {
+    "value": "BC-LATE23",
+    "secret": false,
+    "description": "Code of a live customer booking made with customer_phone, starting less than 24 hours from the test."
+  },
+  "cutoff_booking_code": {
+    "value": "BC-CUT24",
+    "secret": false,
+    "description": "Code of a live customer booking made with customer_phone whose start is exactly 24 hours after test execution; keep the time fixture synchronized with the run."
   }
 }
