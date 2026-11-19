@@ -37,7 +37,7 @@ async function load() {
 }
 $('#list').addEventListener('click', async (e) => {
   const code = e.target.dataset.cancel; if (!code) return;
-  if (!confirm('Cancel booking ' + code + '?')) return;
+  if (!armed(e.target, 'Yes, cancel ' + code)) return;
   const { ok, data } = await call('/api/owner/cancel/' + code, {});
   $('#e').textContent = ok ? '' : data.error; load();
 });

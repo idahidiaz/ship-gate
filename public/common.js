@@ -16,7 +16,22 @@ function header(active) {
   document.body.insertAdjacentHTML('afterbegin', `<header class="top"><div class="wrap">
     <a class="brand" href="/">Bloom <em>&amp;</em> Co.</a>
     <nav><a class="hide-sm" href="/#menu">Menu</a><a class="hide-sm" href="/#team">Stylists</a><a class="hide-sm" href="/#hours">Hours</a>
+    <a href="/booking/" ${active === 'booking' ? 'aria-current="page"' : ''}>My booking</a>
     <a href="/owner" ${active === 'owner' ? 'aria-current="page"' : ''}>Owner view</a><a class="btn" href="/book">Book a visit</a></nav></div></header>`);
+  // Test runs freeze the salon's clock; say so on every page so testers judge times against it.
+  fetch('/api/info').then((r) => r.json()).then((i) => {
+    if (!i.testClock) return;
+    const [d, t] = i.testClock.split('T');
+    document.querySelector('header.top').insertAdjacentHTML('afterend',
+      `<p class="test-clock">Test clock: the salon's time now is ${prettyDate(d)}, ${t.slice(0, 5)}. Times on this site count from this moment.</p>`);
+  }).catch(() => {});
+}
+// Two-step confirm without a browser pop-up: the first click asks, the second click does it.
+function armed(btn, askLabel) {
+  if (btn.dataset.armed) return true;
+  btn.dataset.armed = '1'; btn.dataset.label = btn.textContent; btn.textContent = askLabel;
+  setTimeout(() => { if (btn.isConnected && btn.dataset.armed) { delete btn.dataset.armed; btn.textContent = btn.dataset.label; } }, 8000);
+  return false;
 }
 const moneyLines = (q) => `
   <li><span>Services</span><span>${money(q.servicesCents)}</span></li>

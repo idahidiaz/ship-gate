@@ -38,7 +38,7 @@ async function api(req, res, url) {
 
   if (p === '/api/info') {
     return send(res, 200, { services: L.SERVICES, stylists: L.STYLISTS, hours: L.HOURS,
-      today: L.dateStr(L.now()), maxDate: L.addDays(L.dateStr(L.now()), L.MAX_DAYS_AHEAD) });
+      today: L.dateStr(L.now()), maxDate: L.addDays(L.dateStr(L.now()), L.MAX_DAYS_AHEAD), testClock: process.env.SHIPGATE_NOW || null });
   }
 
   if (p === '/api/availability' && req.method === 'POST') {

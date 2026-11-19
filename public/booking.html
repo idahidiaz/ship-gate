@@ -52,7 +52,7 @@ $('#find').onclick = async () => {
   $('#e').textContent = ''; paint(data);
 };
 $('#cancel').onclick = async () => {
-  if (!confirm('Cancel this booking?')) return;
+  if (!armed($('#cancel'), 'Yes, cancel this booking')) return;
   const { ok, data } = await call(`/api/bookings/${encodeURIComponent(cur.code)}/cancel`, { phone: $('#phone').value });
   if (!ok) { $('#e2').textContent = data.error; return; }
   $('#e2').textContent = ''; paint(data);
