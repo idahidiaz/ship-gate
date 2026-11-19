@@ -93,6 +93,8 @@ function runKane(file, url) {
     if (f.end) { lines.push(`Reason: ${f.end.reason || ''}`); lines.push(`Kane's explanation and suggested fix: ${f.end.summary || f.end.one_liner || ''}`); }
     lines.push('');
   }
-  console.error(lines.join('\n'));
-  process.exit(2);
+  // Claude Code's documented Stop-hook reply: JSON on stdout with decision "block" keeps the agent working
+  // and hands it the reason. (Exit code 2 was shown to the agent only as a non-blocking error in run 10.)
+  console.log(JSON.stringify({ decision: 'block', reason: lines.join('\n') }));
+  process.exit(0);
 })();
