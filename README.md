@@ -32,6 +32,10 @@ Screens 1 to 3 are from the demo video, which shows Kane's real run. Kane's own 
 
 ## Check our claims
 
+**Newest: the hidden-bug hunt.** Kane designed its own tests from `SPEC.md`, a separate agent hid 4 bugs, and the
+coding agent was not told which. Kane caught 2 of 4. The agent fixed both and Kane confirmed the fixes. The 2 misses
+and how we changed the setup between runs are all in [evidence/run11-bug-hunt.md](evidence/run11-bug-hunt.md).
+
 You don't have to trust the video. Three ways to check that Kane really did the testing:
 
 1. **Kane's own pages, hosted by TestMu AI.** Every Kane run is stored in Kane's Test Manager. These share links open
