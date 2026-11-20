@@ -9,7 +9,7 @@ Made for the KaneCLI Online Hackathon. Agent: Claude Code. Tester: Kane CLI.
 ## See it in one minute
 
 - **Try the site live, no install:** https://shipgate-bloom-demo.vercel.app (the fixed version; demo bookings reset now and then)
-- **Watch the loop (3 min):** https://youtu.be/Z-8XtzgDH3g
+- **Watch it (3.5 min):** https://youtu.be/TTnIX2UH-EI
 - **Check Kane's own records:** [Check our claims](#check-our-claims)
 
 | 1. Kane catches the wrong total | 2. The agent fixes one line |
