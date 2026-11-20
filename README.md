@@ -39,7 +39,8 @@ and how we changed the setup between runs are all in [evidence/run11-bug-hunt.md
 You don't have to trust the video. Three ways to check that Kane really did the testing:
 
 1. **Kane's own pages, hosted by TestMu AI.** Every Kane run is stored in Kane's Test Manager. These share links open
-   without a login and show Kane's step-by-step replay (press Autoplay):
+   without a login and show Kane's step-by-step replay (press Autoplay). Kane CLI share links last 7 days, so these
+   may have expired by the time you read this; the full run export in point 2 is the permanent copy:
    - [Money test, passed at 05:12 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_75ZYBQV324ODSN610ROVHZVVTAYXJ7RUY04T23NIPN15K0V3HLKWL83A2L3481AS?type=summary&agentView=true&fqdn=summary-page), right after the agent fixed the planted tax bug (run 5)
    - [Money test, passed at 05:59 UTC on 17 Nov](https://test-manager.lambdatest.com/projects/01M7J7D50A5YQB5KXR2Z35T91F/test-cases/01M7KP6NSGKMAJMNYERTZ2X98S/dashboard/share/US_UYJUCY0BY2T15X9U746QLMPBMTKQT14BXFB4V2JGAL8RV379G3XC9VXLMZ8FAITD?type=summary&agentView=true&fqdn=summary-page), the final recorded run (run 6)
 2. **Kane's diagnosis of the failure.** Screenshot of Kane's own root-cause analysis for a failed gate run on the
